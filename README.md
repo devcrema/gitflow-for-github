@@ -1,6 +1,8 @@
 # gitflow-for-github
 - wrap github CLI for gitflow
 - redefine gitflow for pull-request
+    - automatically tagging on release and hotfix
+    - when finish feature or release or hotfix then create pr instead of merge 
 
 ## how to install (in-progress)
 ```shell
@@ -32,7 +34,7 @@ release : develop -> release and tag -> master, develop
 hotfix : master -> hotfix -> master, develop
 ```
 
-## init (in-progress)
+## init
 ```shell
 ghflow init
 ```
@@ -47,7 +49,7 @@ git checkout -b develop
 git push -u origin develop
 ```
 
-## feature start (in-progress)
+## feature start
 ```shell
 ghflow feature start new-feature
 ```
@@ -57,7 +59,7 @@ DEVELOP="$(git config --get develop)"
 git checkout "$DEVELOP"
 git checkout -b feature/new-feature
 ```
-## feature finish (in-progress)
+## feature finish
 ```shell
 ghflow feature finish
 ```
