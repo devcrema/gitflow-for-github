@@ -1,6 +1,9 @@
 #!/bin/sh
 
 CURRENT_BRANCH="$(git branch --show-current)"
+FLOW="$1" # init, feature, release ...
+METHOD="$2" # start, finish
+PARAMETER="$3" # feature name,
 
 get_main_branch(){
   MAIN_BRANCH="$(git branch | grep -w main)"

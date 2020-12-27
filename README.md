@@ -38,8 +38,11 @@ ghflow init
 ```
 equivalent to
 ```shell
-git checkout -b master # (or main)
-git push -u origin master # (or main)
+git fetch
+git config --local master "master"
+git checkout -b master # (or main or something)
+git push -u origin master # (or main or something)
+git config --local develop
 git checkout -b develop
 git push -u origin develop
 ```
@@ -50,7 +53,8 @@ ghflow feature start new-feature
 ```
 equivalent to
 ```shell
-git checkout develop
+DEVELOP="$(git config --get develop)"
+git checkout "$DEVELOP"
 git checkout -b feature/new-feature
 ```
 ## feature finish (in-progress)
@@ -59,7 +63,8 @@ ghflow feature finish
 ```
 equivalent to
 ```shell
-gh pr create --base develop
+DEVELOP="$(git config --get develop)"
+gh pr create --base "$DEVELOP"
 ```
 
 ## release start (in-progress)
@@ -68,7 +73,8 @@ ghflow release start 1.0.0
 ```
 equivalent to
 ```shell
-git checkout develop
+DEVELOP="$(git config --get develop)"
+git checkout "$DEVELOP"
 git checkout -b release/1.0.0
 ```
 ## release finish (in-progress)
@@ -81,8 +87,10 @@ equivalent to
 # it is complex with pull-request. so tagging in the release branch   
 git tag 0.1.0
 git push origin 0.1.0
-gh pr create --base master
-gh pr create --base develop
+MASTER="$(git config --get master)"
+DEVELOP="$(git config --get develop)"
+gh pr create --base "$MASTER"
+gh pr create --base "$DEVELOP"
 ```
 ## hotfix start (in-progress)
 ```shell
@@ -90,7 +98,8 @@ ghflow hotfix start 1.0.1
 ```
 equivalent to
 ```shell
-git checkout master
+MASTER="$(git config --get master)"
+git checkout "$MASTER"
 git checkout -b hotfix/1.0.1
 ```
 
@@ -102,6 +111,8 @@ equivalent to
 ```shell
 git tag 0.1.1
 git push origin 0.1.1
-gh pr create --base master
-gh pr create --base develop
+MASTER="$(git config --get master)"
+DEVELOP="$(git config --get develop)"
+gh pr create --base "$MASTER"
+gh pr create --base "$DEVELOP"
 ```
