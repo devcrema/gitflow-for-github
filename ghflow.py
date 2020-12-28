@@ -24,61 +24,74 @@ def show_hint() -> None:
 
 
 def git_set_config(key: str, value: str) -> str:  # value
+    print(f'set config: {key}:{value}')
     subprocess.run(["git", "config", "--local", key.strip(), value.strip()])
     return value
 
 
 def git_get_config(key: str) -> str:  # value
+    print(f'get config: {key}')
     return subprocess.run(["git", "config", "--get", key.strip()], capture_output=True, encoding="utf-8").stdout.__str__().strip()
 
 
 def git_create_branch(branch_name: str) -> str:  # branch_name
+    print(f'create branch: {branch_name}')
     subprocess.run(["git", "branch", branch_name.strip()])
     return branch_name
 
 
 def git_checkout(branch_name: str) -> str:  # branch_name
+    print(f'checkout: {branch_name}')
     subprocess.run(["git", "checkout", branch_name.strip()])
     return branch_name
 
 
 def git_checkout_branch(branch_name: str) -> str:  # branch_name
+    print(f'checkout -b: {branch_name}')
     subprocess.run(["git", "checkout", "-b", branch_name.strip()])
     return branch_name
 
 
 def git_fetch() -> None:
+    print(f'fetch')
     subprocess.run(["git", "fetch"])
 
 
 def git_pull() -> None:
+    print(f'pull')
     subprocess.run(["git", "pull"])
 
 
 def git_push(branch_name: str) -> str:  # branch_name
+    print(f'push')
     subprocess.run(["git", "push", "-u", "origin", branch_name.strip()])
     return branch_name
 
 
 def git_tag(tag_name: str) -> str: # tag_name
+    print(f'tag: {tag_name}')
     subprocess.run(["git", "tag", tag_name.strip()])
     return tag_name
 
 
 def git_tag_push(tag_name: str) -> str: # tag_name
+    print(f'push tag: {tag_name}')
     subprocess.run(["git", "push", "origin", tag_name.strip()])
     return tag_name
 
 
 def git_create_pr(base_branch_name: str) -> None:
+    print(f'create pr base: {base_branch_name}')
     subprocess.run(["gh", "pr", "create", "--base", base_branch_name.strip()])
 
 
 def git_exist_branch(branch_name) -> bool:
+    print(f'check exist branch: {branch_name}')
     return branch_name in subprocess.run(["git", "branch"], capture_output=True, encoding="utf-8").stdout.__str__()
 
 
 def git_get_current_branch() -> str:
+    print(f'check current branch')
     return subprocess.run(["git", "branch", "--show-current"], capture_output=True, encoding="utf-8").stdout.__str__()
 
 
@@ -113,12 +126,12 @@ def init(arguments: list[str]) -> None:
         main_branch = get_main_branch_name()
         if not git_exist_branch(main_branch):
             git_create_branch(main_branch)
-            git_set_config(GIT_CONFIG_MASTER, main_branch)
             git_push(main_branch)
+        git_set_config(GIT_CONFIG_MASTER, main_branch)
         if not git_exist_branch("develop"):
             git_create_branch("develop")
-            git_set_config(GIT_CONFIG_DEVELOP, "develop")
             git_push("develop")
+        git_set_config(GIT_CONFIG_DEVELOP, "develop")
     else:
         main_branch = set_main_branch_with_input()
         if not git_exist_branch(main_branch):
@@ -169,7 +182,7 @@ def release(arguments: list[str]) -> None:
         master_branch = git_get_config(GIT_CONFIG_MASTER)
         current_branch = git_get_current_branch()
         if not current_branch.startswith(RELEASE_PREFIX):
-            print(f'current branch[{current_branch}] is wrong, please checkout to release branch')
+            print(f'current branch[{current_branch.strip()}] is wrong, please checkout to release branch')
             return
         release_name = current_branch.replace(RELEASE_PREFIX, "", 1)
         git_tag(release_name)
@@ -199,7 +212,7 @@ def hotfix(arguments: list[str]) -> None:
         master_branch = git_get_config(GIT_CONFIG_MASTER)
         current_branch = git_get_current_branch()
         if not current_branch.startswith(HOTFIX_PREFIX):
-            print(f'current branch[{current_branch}] is wrong, please checkout to hotfix branch')
+            print(f'current branch[{current_branch.strip()}] is wrong, please checkout to hotfix branch')
             return
         hotfix_name = current_branch.removeprefix(HOTFIX_PREFIX)
         git_tag(hotfix_name)
