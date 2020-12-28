@@ -24,27 +24,26 @@ def show_hint() -> None:
 
 
 def git_set_config(key: str, value: str) -> str:  # value
-    subprocess.run(["git", "config", "--local", key, value])
+    subprocess.run(["git", "config", "--local", key.strip(), value.strip()])
     return value
 
 
 def git_get_config(key: str) -> str:  # value
-    return subprocess.run(["git", "config", "--get", key], capture_output=True, encoding="utf-8").stdout.__str__().strip()
+    return subprocess.run(["git", "config", "--get", key.strip()], capture_output=True, encoding="utf-8").stdout.__str__().strip()
 
 
 def git_create_branch(branch_name: str) -> str:  # branch_name
-    subprocess.run(["git", "branch", branch_name])
+    subprocess.run(["git", "branch", branch_name.strip()])
     return branch_name
 
 
 def git_checkout(branch_name: str) -> str:  # branch_name
-    print(f'checkout {branch_name}')
-    subprocess.run(["git", "checkout", branch_name])
+    subprocess.run(["git", "checkout", branch_name.strip()])
     return branch_name
 
 
 def git_checkout_branch(branch_name: str) -> str:  # branch_name
-    subprocess.run(["git", "checkout", "-b", branch_name])
+    subprocess.run(["git", "checkout", "-b", branch_name.strip()])
     return branch_name
 
 
@@ -57,22 +56,22 @@ def git_pull() -> None:
 
 
 def git_push(branch_name: str) -> str:  # branch_name
-    subprocess.run(["git", "push", "-u", "origin", branch_name])
+    subprocess.run(["git", "push", "-u", "origin", branch_name.strip()])
     return branch_name
 
 
 def git_tag(tag_name: str) -> str: # tag_name
-    subprocess.run(["git", "tag", tag_name])
+    subprocess.run(["git", "tag", tag_name.strip()])
     return tag_name
 
 
 def git_tag_push(tag_name: str) -> str: # tag_name
-    subprocess.run(["git", "push", "origin", tag_name])
+    subprocess.run(["git", "push", "origin", tag_name.strip()])
     return tag_name
 
 
 def git_create_pr(base_branch_name: str) -> None:
-    subprocess.run(["gh", "pr", "create", "--base", base_branch_name])
+    subprocess.run(["gh", "pr", "create", "--base", base_branch_name.strip()])
 
 
 def git_exist_branch(branch_name) -> bool:
@@ -172,7 +171,7 @@ def release(arguments: list[str]) -> None:
         if not current_branch.startswith(RELEASE_PREFIX):
             print(f'current branch[{current_branch}] is wrong, please checkout to release branch')
             return
-        release_name = current_branch.removeprefix(RELEASE_PREFIX)
+        release_name = current_branch.replace(RELEASE_PREFIX, "", 1)
         git_tag(release_name)
         git_tag_push(release_name)
         git_create_pr(base_branch_name=develop_branch)
