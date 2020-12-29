@@ -2,7 +2,8 @@
 - wrap github CLI for gitflow
 - redefine gitflow for pull-request
     - automatically tagging on release and hotfix
-    - when finish feature or release or hotfix then create pr instead of merge 
+    - when finish feature or release or hotfix then create pr instead of merge
+    - support master branch for github (main or master) 
 
 ## how to install (in-progress)
 ```shell
@@ -23,7 +24,7 @@ ghflow release finish
 # hotfix start
 ghflow hotfix start 0.1.1
 # hotfix finish with pull request, tag
-ghflow hotfix finish 0.1.1
+ghflow hotfix finish
 ```
 
 ## flow summary
@@ -69,7 +70,7 @@ DEVELOP="$(git config --get develop)"
 gh pr create --base "$DEVELOP"
 ```
 
-## release start (in-progress)
+## release start
 ```shell
 ghflow release start 1.0.0
 ```
@@ -79,7 +80,7 @@ DEVELOP="$(git config --get develop)"
 git checkout "$DEVELOP"
 git checkout -b release/1.0.0
 ```
-## release finish (in-progress)
+## release finish
 ```shell
 ghflow release finish
 ```
@@ -94,7 +95,7 @@ DEVELOP="$(git config --get develop)"
 gh pr create --base "$MASTER"
 gh pr create --base "$DEVELOP"
 ```
-## hotfix start (in-progress)
+## hotfix start
 ```shell
 ghflow hotfix start 1.0.1
 ```
@@ -105,7 +106,7 @@ git checkout "$MASTER"
 git checkout -b hotfix/1.0.1
 ```
 
-## hotfix finish (in-progress)
+## hotfix finish
 ```shell
 ghflow hotfix finish
 ```
