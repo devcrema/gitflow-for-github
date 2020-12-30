@@ -20,7 +20,10 @@ pip install ghflow
 
 ## how to use
 ```shell
+# init branches
 ghflow init
+# init with exist branches
+ghflow init -d
 
 # feature start
 ghflow feature start new-feature
