@@ -5,24 +5,38 @@
     - when finish feature or release or hotfix then create pr instead of merge
     - support master branch for github (main or master) 
 
-## how to install (in-progress)
+## Prerequisite
 ```shell
+>= python 3.5
+gh [https://github.com/cli/cli]
+  - mac: brew install gh
+  - windows: choco install gh	
+```
 
+## how to install
+```shell
+pip install ghflow
 ```
 
 ## how to use
 ```shell
 ghflow init
+
 # feature start
 ghflow feature start new-feature
+
 # feature finish with pull request
 ghflow feature finish
+
 # release start
 ghflow release start 0.1.0
+
 # release finish with pull request, tag
 ghflow release finish
+
 # hotfix start
 ghflow hotfix start 0.1.1
+
 # hotfix finish with pull request, tag
 ghflow hotfix finish
 ```
