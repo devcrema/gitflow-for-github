@@ -173,7 +173,7 @@ def release(arguments: list[str]) -> None:
         if not current_branch.startswith(RELEASE_PREFIX):
             print(f'current branch[{current_branch}] is wrong, please checkout to release branch')
             return
-        release_name = current_branch.replace(RELEASE_PREFIX, "", 1)
+        release_name = current_branch.replace(RELEASE_PREFIX, "", 1).strip()
         git_tag(release_name)
         git_tag_push(release_name)
         git_create_pr(base_branch_name=develop_branch)
@@ -203,7 +203,7 @@ def hotfix(arguments: list[str]) -> None:
         if not current_branch.startswith(HOTFIX_PREFIX):
             print(f'current branch[{current_branch}] is wrong, please checkout to hotfix branch')
             return
-        hotfix_name = current_branch.replace(HOTFIX_PREFIX, "", 1)
+        hotfix_name = current_branch.replace(HOTFIX_PREFIX, "", 1).strip()
         git_tag(hotfix_name)
         git_tag_push(hotfix_name)
         git_create_pr(base_branch_name=develop_branch)
