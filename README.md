@@ -1,14 +1,24 @@
-# gitflow-for-github
-- wrap github CLI for gitflow
-- redefine gitflow for pull-request
-    - automatically tagging on release and hotfix
-    - when finish feature or release or hotfix then create pr instead of merge
-    - support master branch for github (main or master) 
+# About gitflow-for-github
+**ghflow** is a tool wrapped around [githubCLI](https://github.com/cli/cli) for gitflow.
+
+In real projects, we use protection on develop and master branches to prevent mistakes and code review.
+It is necessary to make a pull request when all branches are merged, but this causes a lot of iteration to make a pr when using gitflow.
+**ghflow** is a tool to reduce redundant work that occurs by using **gitflow** with **PR**.
+
+![diagram](./docs/mermaid-2021-01-03.png)
+
+### redefine gitflow for pull-request
+- Automatic tagging when release and hotfix branches are closed
+- When a feature or release or hotfix branch is finished, it creates a PR instead of merging it.
+- Support master branch for github (main or master)
 
 ## Prerequisite
 ```shell
 >= python 3.5
-gh [https://github.com/cli/cli]
+  - mac: brew install python3
+  - windows: choco install python3
+  
+github cli (gh) [https://github.com/cli/cli]
   - mac: brew install gh
   - windows: choco install gh	
 ```
