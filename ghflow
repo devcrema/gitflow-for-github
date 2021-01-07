@@ -29,8 +29,11 @@ def git_set_config(key: str, value: str) -> str:  # value
 
 
 def git_get_config(key: str) -> str:  # value
-    return subprocess.run(["git", "config", "--get", key], capture_output=True,
-                          encoding="utf-8").stdout.__str__().strip()
+    config_value = subprocess.run(["git", "config", "--get", key], capture_output=True,
+                                  encoding="utf-8").stdout.__str__().strip()
+    if not config_value:
+        raise Exception(f'config [{key}] is not set, try ghflow init or ghflow init -d')
+    return config_value
 
 
 def git_create_branch(branch_name: str) -> str:  # branch_name
