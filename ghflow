@@ -16,6 +16,7 @@ class FlowType(Enum):
     FEATURE = 2
     RELEASE = 3
     HOTFIX = 4
+    TAG = 5
 
 
 def show_hint() -> None:
@@ -176,9 +177,6 @@ def release(arguments: list[str]) -> None:
         if not current_branch.startswith(RELEASE_PREFIX):
             print(f'current branch[{current_branch}] is wrong, please checkout to release branch')
             return
-        release_name = current_branch.replace(RELEASE_PREFIX, "", 1).strip()
-        git_tag(release_name)
-        git_tag_push(release_name)
         git_create_pr(base_branch_name=develop_branch)
         git_create_pr(base_branch_name=master_branch)
     else:
@@ -206,14 +204,22 @@ def hotfix(arguments: list[str]) -> None:
         if not current_branch.startswith(HOTFIX_PREFIX):
             print(f'current branch[{current_branch}] is wrong, please checkout to hotfix branch')
             return
-        hotfix_name = current_branch.replace(HOTFIX_PREFIX, "", 1).strip()
-        git_tag(hotfix_name)
-        git_tag_push(hotfix_name)
         git_create_pr(base_branch_name=develop_branch)
         git_create_pr(base_branch_name=master_branch)
     else:
         show_hint()
         return
+
+
+def tag(arguments: list[str]) -> None:
+    if len(arguments) < 1:
+        show_hint()
+        return
+    master_branch = git_get_config(GIT_CONFIG_MASTER)
+    git_checkout(master_branch)
+    git_pull()
+    git_tag(arguments[0])
+    git_tag_push(arguments[0])
 
 
 if __name__ == '__main__':
@@ -229,5 +235,7 @@ if __name__ == '__main__':
         release(sys.argv[2:])
     elif flow_type == FlowType.HOTFIX:
         hotfix(sys.argv[2:])
+    elif flow_type == FlowType.TAG:
+        tag(sys.argv[2:])
     else:
         show_hint()
