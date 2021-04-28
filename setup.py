@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='ghflow',
-    version='0.0.5',
+    version='0.0.6',
     author='devcrema',
     scripts=['ghflow'],
     python_requires='>=3.5',
